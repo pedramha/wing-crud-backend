@@ -1,0 +1,29 @@
+on: [pull_request]
+
+permissions:
+  id-token: write      # required for requesting the JWT
+  contents: read       # required for checkout
+
+env:
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  TF_BACKEND_BUCKET: ${{ secrets.TF_BACKEND_BUCKET }}
+  TF_BACKEND_BUCKET_REGION: ${{ secrets.AWS_REGION }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          role-session-name: gh-actions-winglang
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Terraform Deploy
+        uses: winglang/wing-github-action/actions/deploy@0.1.0
+        with:
+          entry: main.w
+          target: 'tf-aws'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
