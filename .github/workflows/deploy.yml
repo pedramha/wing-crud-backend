@@ -24,6 +24,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Install Dependencies
+        run: |
+            npm install -g winglang
+            
+
       - name: Terraform Deploy
         run: |
           wing compile -t tf-aws -t platform.static-backend.js main.w
