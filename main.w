@@ -1,9 +1,8 @@
 bring cloud;
-bring util;
 bring http;
 bring expect;
 bring dynamodb;
-
+// npm i -g @winglibs/dynamodb
 let messagesTable = new dynamodb.Table(
   attributes: [
     {

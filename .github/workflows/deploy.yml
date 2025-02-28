@@ -60,4 +60,4 @@ jobs:
 
       - name: Terraform Apply
         working-directory: ./target/main.tfaws
-        run: terraform destroy -auto-approve
+        run: terraform apply -auto-approve
